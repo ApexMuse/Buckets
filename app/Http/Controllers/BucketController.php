@@ -3,8 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Bucket;
+use Exception;
+use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Routing\Redirector;
 
 class BucketController extends Controller
 {
@@ -40,11 +44,12 @@ class BucketController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @return Response
+     * @return Application|RedirectResponse|Response|Redirector
      */
     public function store()
     {
-        Bucket::create($this->validateRequest());
+        $bucket = Bucket::create($this->validateRequest());
+        return redirect($bucket->path);
     }
 
     /**
@@ -71,23 +76,25 @@ class BucketController extends Controller
 
     /**
      * Update the specified resource in storage.
-     *
      * @param Bucket $bucket
-     * @return Response
+     * @return Application|RedirectResponse|Redirector
      */
     public function update(Bucket $bucket)
     {
         $bucket->update($this->validateRequest());
+        return redirect($bucket->path);
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param Bucket $bucket
-     * @return Response
+     * @return Application|RedirectResponse|Response|Redirector
+     * @throws Exception
      */
     public function destroy(Bucket $bucket)
     {
-        //
+        $bucket->delete();
+        return redirect('/buckets');
     }
 }
