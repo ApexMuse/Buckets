@@ -19,5 +19,6 @@ Route::get('/', function () {
 });
 
 Route::resources([
-    '/buckets' => BucketController::class
+    '/buckets' => BucketController::class,
+    '/transactions' => TransactionController::class,
 ]);

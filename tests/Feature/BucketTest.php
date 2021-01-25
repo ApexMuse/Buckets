@@ -16,17 +16,17 @@ class BucketTest extends TestCase
         $this->withoutExceptionHandling();
 
         $response = $this->post('/buckets', [
-            'name' => 'USAA Checking',
-            'description' => 'Primary checking account at USAA Federal Savings Bank',
+            'name' => 'Checking',
+            'description' => 'Primary checking account',
             'balance' => 2587.84,
-            'account_number' => '23830123',
-            'routing_number' => '314074269',
+            'account_number' => '85478542',
+            'routing_number' => '364894155',
         ]);
 
         $bucket = Bucket::first();
 
         self::assertCount(1, Bucket::all());
-        $response->assertRedirect('/buckets/'.$bucket->id);
+        $response->assertRedirect($bucket->path);
     }
 
     /** @test **/
@@ -36,10 +36,10 @@ class BucketTest extends TestCase
 
         $response = $this->post('/buckets', [
             'name' => '',
-            'description' => 'Primary checking account at USAA Federal Savings Bank',
+            'description' => 'Primary checking account',
             'balance' => 2587.84,
-            'account_number' => '23830123',
-            'routing_number' => '314074269',
+            'account_number' => '85478542',
+            'routing_number' => '364894155',
         ]);
 
         $response->assertSessionHasErrors('name');
@@ -51,11 +51,11 @@ class BucketTest extends TestCase
         $this->withExceptionHandling();
 
         $response = $this->post('/buckets', [
-            'name' => 'USAA Checking',
-            'description' => 'Primary checking account at USAA Federal Savings Bank',
+            'name' => 'Checking',
+            'description' => 'Primary checking account',
             'balance' => null,
-            'account_number' => '23830123',
-            'routing_number' => '314074269',
+            'account_number' => '85478542',
+            'routing_number' => '364894155',
         ]);
 
         $response->assertSessionHasErrors('balance');
@@ -67,11 +67,11 @@ class BucketTest extends TestCase
         $this->withoutExceptionHandling();
 
         $this->post('/buckets', [
-            'name' => 'USAA Checking',
-            'description' => 'Primary checking account at USAA Federal Savings Bank',
+            'name' => 'Checking',
+            'description' => 'Primary checking account',
             'balance' => 2587.84,
-            'account_number' => '23830123',
-            'routing_number' => '314074269',
+            'account_number' => '85478542',
+            'routing_number' => '364894155',
         ]);
 
         $bucket = Bucket::first();
@@ -83,18 +83,18 @@ class BucketTest extends TestCase
 
         self::assertEquals('Checking', Bucket::first()->name);
         self::assertEquals(3389.45, Bucket::first()->balance);
-        $response->assertRedirect('/buckets/'.$bucket->id);
+        $response->assertRedirect($bucket->path);
     }
 
     /** @test **/
     public function a_bucket_can_be_deleted(): void
     {
         $this->post('/buckets', [
-            'name' => 'USAA Checking',
-            'description' => 'Primary checking account at USAA Federal Savings Bank',
+            'name' => 'Checking',
+            'description' => 'Primary checking account',
             'balance' => 2587.84,
-            'account_number' => '23830123',
-            'routing_number' => '314074269',
+            'account_number' => '85478542',
+            'routing_number' => '364894155',
         ]);
 
         $bucket = Bucket::first();
